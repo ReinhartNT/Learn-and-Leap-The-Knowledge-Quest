@@ -14,10 +14,8 @@ export default class WorldScene extends Phaser.Scene{
         this.speed = 75
         this.fence = undefined
         this.score = 0
-        this.scoreUpdate = data.score
         this.scoreText = undefined
         this.health = 3
-        this.healthUpdate = data.health
         this.healthText = undefined
     }
 
@@ -61,11 +59,11 @@ export default class WorldScene extends Phaser.Scene{
         // If player touch fence
         this.physics.add.overlap(this.player, this.fence, this.startQuestion, null, this)
 
-        // Score
-        this.scoreText = this.add.text(16, 16, 'Score: 0', {fontSize: '24px', color: '#fff', fontFamily: 'Arial', fontStyle: 'bold'})
+        // Score Text
+        this.scoreText = this.add.text(16, 16, 'Score: ' + this.score, {fontSize: '24px', color: '#fff', fontFamily: 'Arial', fontStyle: 'bold'})
 
         // Health
-        this.healthText = this.add.text(16, 50, 'Health: 3', {fontSize: '24px', color: '#fff', fontFamily: 'Arial', fontStyle: 'bold'})
+        this.healthText =  this.add.text(16, 50, 'Health: ' + this.health, {fontSize: '24px', color: '#fff', fontFamily: 'Arial', fontStyle: 'bold'})
 
     }
 
