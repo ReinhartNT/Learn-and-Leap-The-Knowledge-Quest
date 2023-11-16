@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
-import HelloWorldScene from './HelloWorldScene'
 import WorldScene from './WorldScene'
+import QuestionScene from './QuestionScene'
 
 const config = {
 	type: Phaser.AUTO,
@@ -14,7 +14,7 @@ const config = {
 			gravity: { y: 200 },
 		},
 	},
-	scene: [WorldScene],
+	scene: [WorldScene, QuestionScene],
 	scale: {
 		mode: Phaser.Scale.FIT,
 		autoCenter: Phaser.Scale.CENTER_BOTH

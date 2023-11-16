@@ -5,7 +5,7 @@ export default class WorldScene extends Phaser.Scene{
         super('world-scene')
     }
 
-    init(){
+    init(data){
         this.background = undefined
         this.platform = undefined
         this.movingPlatform = undefined
@@ -13,24 +13,12 @@ export default class WorldScene extends Phaser.Scene{
         this.cursors = undefined
         this.speed = 75
         this.fence = undefined
-        this.questionText = undefined
-        this.resultText = undefined
-        this.question = []
-        this.number = 0
-        
-        // Number
-        this.number0 = undefined
-        this.number1 = undefined
-        this.number2 = undefined
-        this.number3 = undefined
-        this.number4 = undefined
-        this.number5 = undefined
-        this.number6 = undefined
-        this.number7 = undefined
-        this.number8 = undefined
-        this.number9 = undefined
-        this.backspace = undefined
-        this.enter = undefined
+        this.score = 0
+        this.scoreUpdate = data.score
+        this.scoreText = undefined
+        this.health = 3
+        this.healthUpdate = data.health
+        this.healthText = undefined
     }
 
     preload(){
@@ -52,7 +40,6 @@ export default class WorldScene extends Phaser.Scene{
             setScale: {x: 3, y:3},
             collideWorldBounds: true
         })
-        this.createButtons()
 
         // Obstacle
         this.fence = this.physics.add.group({
@@ -71,21 +58,19 @@ export default class WorldScene extends Phaser.Scene{
         this.cursors = this.input.keyboard.createCursorKeys()
         this.player = this.CreatePlayer()
 
-        this.physics.add.overlap(
-            this.player,
-            this.fence,
-            this.startQuestion,
-            null,
-            this
-        )
+        // If player touch fence
+        this.physics.add.overlap(this.player, this.fence, this.startQuestion, null, this)
+
+        // Score
+        this.scoreText = this.add.text(16, 16, 'Score: 0', {fontSize: '24px', color: '#fff', fontFamily: 'Arial', fontStyle: 'bold'})
+
+        // Health
+        this.healthText = this.add.text(16, 50, 'Health: 3', {fontSize: '24px', color: '#fff', fontFamily: 'Arial', fontStyle: 'bold'})
+
     }
 
     update(time){
         this.Movement(this.player, time)
-
-        // if(this.number0.isDown){
-        //     console.log('0')
-        // }
     }
 
     Movement(player, time){
@@ -104,6 +89,7 @@ export default class WorldScene extends Phaser.Scene{
         }
         
     }
+
     CreatePlayer(){
         const player = this.physics.add.sprite(40, 300, 'Player').setScale(0.8)
         
@@ -137,68 +123,13 @@ export default class WorldScene extends Phaser.Scene{
         })
         return player
     }
-    getOperator(){
-        const operator = ['+', '-', 'x', ':']
-        return operator[Phaser.Math.Between(0,3)]
-    }
-    generateQuestion(){
-        let numberA = Phaser.Math.Between(0, 50)
-        let numberB = Phaser.Math.Between(0, 50)
-        let operator = this.getOperator()
-        if (operator === '+'){
-            this.question[0] = `${numberA} + ${numberB}`
-            this.question[1] = numberA + numberB
-        }
-        if (operator === 'x'){
-            this.question[0] = `${numberA} x ${numberB}`
-            this.question[1] = numberA * numberB
-        }
-        if (operator === '-'){
-            if(numberB > numberA){
-                this.question[0] = `${numberB} - ${numberA}`
-                this.question[1] = numberB - numberA
-            } else {
-                this.question[0] = `${numberA} - ${numberB}`
-                this.question[1] = numberA - numberB
-            }
-        }
-        if (operator === ':'){
-            do{
-                numberA = Phaser.Math.Between(0, 50)
-                numberB = Phaser.Math.Between(0, 50)
-            }while(!Number.isInteger(numberA/numberB))
-            this.question[0] =  `${numberA} : ${numberB}`
-            this.question[1] = numberA / numberB
-        }
-        this.questionText.setText(this.question[0])
-        const textHalfWidth = this.questionText.width * 0.5
-        this.questionText.setX(540 - textHalfWidth)
-    }
-    checkAnswer(){
-        if(this.number == this.question[1]){
-            this.correctAnswer = true
-        }else{
-            this.correctAnswer = false
-        }
-    }
-    startQuestion(player, fence){
-        this.resultText = this.add.text(540, 200, '0', { fontSize: '32px', color: '#000'})
-        this.questionText = this.add.text(540, 100, '0', { fontSize: '32px', color: '#000'})
-        this.generateQuestion()
 
-    }
-    createButtons(){
-        this.number0 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ZERO)
-        this.number1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE)
-        this.number2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO)
-        this.number3 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE)
-        this.number4 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR)
-        this.number5 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE)
-        this.number6 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX)
-        this.number7 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEVEN)
-        this.number8 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.EIGHT)
-        this.number9 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NINE)
-        this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
-        this.backspace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE)
+    startQuestion(player, fence){
+      // Destroy the fence
+      fence.destroy()
+      // Pause the scene
+      this.scene.pause()
+      // Move player to the next scene, bring the score and health
+      this.scene.launch('question-scene', {score: this.score, health: this.health})
     }
 }
