@@ -124,10 +124,10 @@ export default class WorldScene extends Phaser.Scene{
 
     startQuestion(player, fence){
       // Destroy the fence
-      fence.destroy()
+        fence.destroy()
       // Pause the scene
-      this.scene.pause()
+        this.scene.pause()
       // Move player to the next scene, bring the score and health
-      this.scene.launch('question-scene', {score: this.score, health: this.health})
+        this.scene.launch('question-scene', {score: this.score, health: this.health})
     }
 }
