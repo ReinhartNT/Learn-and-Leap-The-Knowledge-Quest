@@ -17,6 +17,7 @@ export default class WorldScene extends Phaser.Scene{
         this.scoreText = undefined
         this.health = 3
         this.healthText = undefined
+        this.counter = 0
 
         // Get the score and health from the previous scene
         this.scoreTmp = data.score
@@ -63,33 +64,13 @@ export default class WorldScene extends Phaser.Scene{
 
         // If player touch fence
         this.physics.add.overlap(this.player, this.fence, this.startQuestion, null, this)
-
-        // Score Text
-        this.scoreText = this.add.text(16, 16, 'Score: ' + this.score, {fontSize: '24px', color: '#fff', fontFamily: 'Arial', fontStyle: 'bold'})
-
-        // Health
-        this.healthText =  this.add.text(16, 50, 'Health: ' + this.health, {fontSize: '24px', color: '#fff', fontFamily: 'Arial', fontStyle: 'bold'})
-
     }
 
     update(time){
         this.Movement(this.player, time)
 
-        // Update Score and Health
-        if(this.scoreTmp != undefined && this.healthTmp != undefined){
-            this.scoreText.setText('Score: ' + this.scoreTmp)
-            this.healthText.setText('Health: ' + this.healthTmp)
-
-            this.score = this.scoreTmp
-            this.health = this.healthTmp
-        }
-
-        if(this.health <= 0){
-            this.scene.start('game-over', {score: this.score})
-        }
-
-        if (this.score >= 50){
-            this.scene.start('win-scene', {score: this.score})
+        if(this.counter >= 5){
+            this.scene.start('game-over-win')
         }
     }
 
@@ -147,9 +128,8 @@ export default class WorldScene extends Phaser.Scene{
     startQuestion(player, fence){
       // Destroy the fence
         fence.destroy()
-      // Pause the scene
-        this.scene.pause()
       // Move player to the next scene, bring the score and health
-        this.scene.launch('question-scene', {score: this.score, health: this.health})
+        this.scene.launch('question-scene')
+        this.counter += 1
     }
 }
