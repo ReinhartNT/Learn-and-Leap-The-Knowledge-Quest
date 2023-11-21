@@ -16,7 +16,7 @@ const config = {
 			gravity: { y: 200 },
 		},
 	},
-	scene: [GameOverScene, StartScene, WorldScene, QuestionScene],
+	scene: [StartScene, WorldScene, QuestionScene],
 	scale: {
 		mode: Phaser.Scale.FIT,
 		autoCenter: Phaser.Scale.CENTER_BOTH

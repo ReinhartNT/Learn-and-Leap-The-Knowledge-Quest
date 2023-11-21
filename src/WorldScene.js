@@ -17,6 +17,10 @@ export default class WorldScene extends Phaser.Scene{
         this.scoreText = undefined
         this.health = 3
         this.healthText = undefined
+
+        // Get the score and health from the previous scene
+        this.scoreTmp = data.score
+        this.healthTmp = data.health
     }
 
     preload(){
@@ -69,6 +73,13 @@ export default class WorldScene extends Phaser.Scene{
 
     update(time){
         this.Movement(this.player, time)
+        console.log(this.scoreTmp)
+
+        // Update Score and Health
+        if(this.scoreTmp != undefined && this.healthTmp != undefined){
+            this.scoreText.setText('Score: ' + this.scoreTmp)
+            this.healthText.setText('Health: ' + this.healthTmp)
+        }
     }
 
     Movement(player, time){

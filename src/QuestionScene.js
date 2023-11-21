@@ -16,6 +16,7 @@ export default class QuestionScene extends Phaser.Scene {
     this.correctAnswer = undefined;
     this.scoreTmp = 0;
     this.healthTmp = 0;
+    this.isRight = false;
 
     // Number
     this.number0 = undefined;
@@ -220,22 +221,11 @@ export default class QuestionScene extends Phaser.Scene {
     if (this.enter.isDown) {
       this.checkAnswer();
       if (this.correctAnswer) {
-        // Score +10
-        this.scoreTmp += 10;
-        // continue to world-scene
+        this.scene.resume("world-scene", {score: this.score + 10, health: this.health})
         this.scene.stop("question-scene");
-        this.scene.resume("world-scene", {
-          score: this.scoreTmp,
-          health: this.health,
-        });
       } else {
-        // Health -1
-        this.healthTmp += 1;
+        this.scene.resume("world-scene", {score: this.score, health: this.health - 1});
         this.scene.stop("question-scene");
-        this.scene.resume("world-scene", {
-          score: this.score,
-          health: this.healthTmp,
-        });
       }
     }
 
