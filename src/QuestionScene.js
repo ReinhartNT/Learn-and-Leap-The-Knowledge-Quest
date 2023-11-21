@@ -221,10 +221,10 @@ export default class QuestionScene extends Phaser.Scene {
     if (this.enter.isDown) {
       this.checkAnswer();
       if (this.correctAnswer) {
-        this.scene.resume("world-scene", {score: this.score + 10, health: this.health})
+        this.scene.launch("world-scene", {score: this.score + 10, health: this.health, isRight: this.correctAnswer})
         this.scene.stop("question-scene");
       } else {
-        this.scene.resume("world-scene", {score: this.score, health: this.health - 1});
+        this.scene.launch("world-scene", {score: this.score, health: this.health - 1, isRight: this.correctAnswer});
         this.scene.stop("question-scene");
       }
     }

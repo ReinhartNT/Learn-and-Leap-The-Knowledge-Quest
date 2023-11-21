@@ -21,6 +21,7 @@ export default class WorldScene extends Phaser.Scene{
         // Get the score and health from the previous scene
         this.scoreTmp = data.score
         this.healthTmp = data.health
+        this.isRight = data.isRight
     }
 
     preload(){
@@ -73,12 +74,22 @@ export default class WorldScene extends Phaser.Scene{
 
     update(time){
         this.Movement(this.player, time)
-        console.log(this.scoreTmp)
 
         // Update Score and Health
         if(this.scoreTmp != undefined && this.healthTmp != undefined){
             this.scoreText.setText('Score: ' + this.scoreTmp)
             this.healthText.setText('Health: ' + this.healthTmp)
+
+            this.score = this.scoreTmp
+            this.health = this.healthTmp
+        }
+
+        if(this.health <= 0){
+            this.scene.start('game-over', {score: this.score})
+        }
+
+        if (this.score >= 50){
+            this.scene.start('win-scene', {score: this.score})
         }
     }
 
