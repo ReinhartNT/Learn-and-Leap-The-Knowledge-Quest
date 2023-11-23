@@ -31,10 +31,6 @@ export default class QuestionScene extends Phaser.Scene {
     this.number9 = undefined;
     this.backspace = undefined;
     this.enter = undefined;
-
-    // Imported Data
-    this.score = data.score;
-    this.health = data.health;
   }
 
   preload() {
@@ -46,19 +42,6 @@ export default class QuestionScene extends Phaser.Scene {
 
     this.questionStart();
 
-    // Score
-    this.add.text(16, 16, "Score: " + this.score, {
-      fontSize: "24px",
-      color: "#fff",
-      fontFamily: "Arial",
-      fontStyle: "bold",
-    });
-    this.add.text(16, 50, "Health: " + this.health, {
-      fontSize: "24px",
-      color: "#fff",
-      fontFamily: "Arial",
-      fontStyle: "bold",
-    });
   }
 
   update(time) {}

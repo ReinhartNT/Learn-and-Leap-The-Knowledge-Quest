@@ -4,6 +4,7 @@ import WorldScene from './WorldScene'
 import QuestionScene from './QuestionScene'
 import StartScene from './StartScene'
 import GameOverScene from './GameOverScene'
+import GameOverWinScene from './GameOverScene(Win)'
 
 const config = {
 	type: Phaser.AUTO,
@@ -16,7 +17,7 @@ const config = {
 			gravity: { y: 200 },
 		},
 	},
-	scene: [StartScene, WorldScene, QuestionScene],
+	scene: [StartScene, WorldScene, QuestionScene, GameOverScene, GameOverWinScene],
 	scale: {
 		mode: Phaser.Scale.FIT,
 		autoCenter: Phaser.Scale.CENTER_BOTH

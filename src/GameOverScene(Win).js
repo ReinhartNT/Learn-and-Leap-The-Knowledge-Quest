@@ -1,8 +1,8 @@
 import Phaser from "phaser"
 
-export default class GameOverScene extends Phaser.Scene{
+export default class GameOverWinScene extends Phaser.Scene{
     constructor(){
-        super('game-over')
+        super('game-over-win')
     }
 
     init(data){
@@ -15,7 +15,7 @@ export default class GameOverScene extends Phaser.Scene{
     preload(){
     this.load.image('BG', 'Images/BG/PNG/summer8/Summer8.png')
     this.load.image('RestartButton', 'Images/PNG/yellow_button00.png')
-    this.load.image('Sad', 'Images/9479419-removebg-preview.png')
+    this.load.image('Happy', 'Images/image-removebg-preview.png')
     this.load.image('Logo', 'Images/learn-and-leap-the-knowledge-quest-high-resolution-logo-transparent.png')
     }
 
@@ -28,10 +28,10 @@ export default class GameOverScene extends Phaser.Scene{
         this.scene.start('world-scene')
     })
 
-    this.add.image(430, 40, 'Sad').setScale(0.75)
+    this.add.image(430, 40, 'Happy').setScale(0.75)
     this.add.image(100, 50, 'Logo').setScale(0.1)
 
-    this.add.text(440, 270, "Try Again", {
+    this.add.text(440, 270, "Yay, You Did It!", {
         fontSize: "32px",
         color: "#fff",
         fontFamily: "Arial",

@@ -69,7 +69,7 @@ export default class WorldScene extends Phaser.Scene{
     update(time){
         this.Movement(this.player, time)
 
-        if(this.counter >= 5){
+        if(this.counter > 5){
             this.scene.start('game-over-win')
         }
     }
@@ -128,6 +128,7 @@ export default class WorldScene extends Phaser.Scene{
     startQuestion(player, fence){
       // Destroy the fence
         fence.destroy()
+        this.scene.pause()
       // Move player to the next scene, bring the score and health
         this.scene.launch('question-scene')
         this.counter += 1
